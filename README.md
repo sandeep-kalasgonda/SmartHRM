@@ -1,6 +1,6 @@
 # Smart-HR-System - Master API
 
-This project is a FastAPI-based intermediate API that consists of an intermediate service which forwards HTTP requests to multiple backend services (clients, requirements, and candidates master), along with the individual masters from their respective feature branch. The API acts as a gateway to these services, forwarding requests while handling errors and logging responses.
+This project is API based system that consists of an intermediate service which forwards HTTP requests to multiple backend services (clients, requirements, and candidates master), along with the individual masters from their respective feature branch. The API acts as a gateway to these services, forwarding requests while handling errors and logging responses.
 
 ## Features
 
