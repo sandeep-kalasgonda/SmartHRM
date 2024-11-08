@@ -1,0 +1,122 @@
+<div class="form-container">
+  <div class="showBanner add-client-banner">
+    <span>{{ formHeading }}</span>
+    <button class="close-button" (click)="closeDialog()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <br>
+  
+  <div class="section">
+    <h6>Company Details</h6>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="companyName">Company Name *</label>
+        <input type="text" class="form-control" id="companyName" placeholder="Enter company name"
+               [(ngModel)]="client.cl_name" required>
+        <div *ngIf="!client.cl_name && submitted" class="text-danger">
+          Company Name is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="companyType">Company Type</label>
+        <div class="dropdown-container">
+          <select class="form-control" id="companyType" [(ngModel)]="client.cl_type">
+            <option>Select company type</option>
+            <option>Service Based</option>
+            <option>Product Based</option>
+            <option>Both</option>
+          </select>
+          <span class="dropdown-icon">&#9662;</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="companyEmail">Company Email</label>
+        <input type="email" class="form-control" id="companyEmail" placeholder="Enter company email"
+               [(ngModel)]="client.cl_email">
+        <div *ngIf="client.cl_email && !isEmailValid(client.cl_email) && submitted" class="text-danger">
+          Valid Email is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="companyPhone">Company Phone Number</label>
+        <input type="tel" class="form-control" id="companyPhone" placeholder="Enter company phone number"
+               [(ngModel)]="client.cl_phno">
+        <div *ngIf="!client.cl_phno && submitted" class="text-danger">
+          Phone Number is required.
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="address">Address*</label>
+        <input type="text" class="form-control" id="address" placeholder="Enter company address"
+               [(ngModel)]="client.cl_addr" required>
+        <div *ngIf="!client.cl_addr && submitted" class="text-danger">
+          Address is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="mapLink">Map Link*</label>
+        <input type="text" class="form-control" id="mapLink" placeholder="Enter map link"
+               [(ngModel)]="client.cl_map_url" required>
+        <div *ngIf="!client.cl_map_url && submitted" class="text-danger">
+          Map Link is required.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="clientsNotes">Clients Notes</label>
+      <textarea class="form-control" id="clientsNotes" rows="3" [(ngModel)]="client.cl_notes"></textarea>
+    </div>
+  </div>
+
+  <div class="section">
+    <h6>Primary Contact Person</h6>
+    <div *ngFor="let contact of client.contacts; let i = index" class="form-row">
+      <div class="form-group">
+        <label for="name{{i}}">Name*</label>
+        <input type="text" class="form-control" id="name{{i}}" placeholder="Enter name"
+               [(ngModel)]="contact.co_name" required>
+        <div *ngIf="!contact.co_name && submitted" class="text-danger">
+          Name is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="hiringPosition{{i}}">Hiring Position</label>
+        <input type="text" class="form-control" id="hiringPosition{{i}}" placeholder="Enter hiring position"
+               [(ngModel)]="contact.co_position_hr">
+      </div>
+      <div class="form-group">
+        <label for="phoneNo{{i}}">Phone No.*</label>
+        <input type="tel" class="form-control" id="phoneNo{{i}}" placeholder="Enter Phone No."
+               [(ngModel)]="contact.co_phno" required>
+        <div *ngIf="!contact.co_phno && submitted" class="text-danger">
+          Phone No. is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email{{i}}">Email*</label>
+        <input type="email" class="form-control" id="email{{i}}" placeholder="Enter Email"
+               [(ngModel)]="contact.co_email" required>
+        <div *ngIf="!contact.co_email && submitted" class="text-danger">
+          Email is required.
+        </div>
+      </div>
+      <button (click)="removeContactPerson(i)" class="remove-button">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <button type="button" class="btn btn-primary add-contact-person-button" 
+            (click)="addContactPerson()" 
+            [disabled]="isAddContactDisabled">Add contact person</button>
+    <button type="button" class="btn btn-secondary submit-button" 
+            (click)="onSubmit()" 
+            [disabled]="isSubmitDisabled">Submit</button>
+  </div> 
+</div>

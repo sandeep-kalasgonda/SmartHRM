@@ -1,0 +1,74 @@
+<div class="container candidate-master-container">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="candidate-title text-center">Candidate Master</h4>
+    <button class="btn btn-primary" (click)="openCandidateForm()">
+      <i class="fa fa-plus"></i> Add Candidate
+    </button>
+  </div>
+
+  <br>
+  <div class="row align-items-center"> 
+    <!-- Select for Client Name with placeholder -->
+    <div class="col-md-4">
+      <select class="form-select" [(ngModel)]="selectedClientId" (ngModelChange)="onClientChange()">
+        <option selected>Client Name</option>
+        <option *ngFor="let client of clients" [value]="client.cl_id">{{ client.cl_name }}</option>
+      </select>
+    </div>
+  
+    <!-- Select for Requirements with placeholder -->
+    <div class="col-md-4">
+      <select class="form-select" [(ngModel)]="selectedRequirementId">
+        <option selected>Requirement Name</option>
+        <option *ngFor="let requirement of requirements" [value]="requirement.rq_id">{{ requirement.rq_name }}</option>
+      </select>
+    </div>  
+    
+    <!-- Search Box -->
+    <div class="col-md-4"> <!-- Use remaining width for search box -->
+      <div class="input-group"> <!-- Keep the input group full width -->
+        <span class="input-group-text">
+          <i class="fas fa-search"></i>
+        </span>
+        <input type="text" class="form-control" placeholder="Search here..." [(ngModel)]="searchQuery" (input)="filterCandidates()" />
+        <button class="btn btn-outline-secondary" type="button" (click)="searchQuery = ''">
+          <i class="fa fa-x"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+ 
+  <br>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Location</th>
+        <th>Experience</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let candidate of filteredCandidates">
+        <td>{{ candidate?.cd_first_name }} {{ candidate?.cd_last_name }}</td>
+        <td>{{ candidate?.created_at ? (candidate.created_at | date:'shortDate') : 'N/A' }}</td>
+        <td>{{ candidate?.cd_email }}</td>
+        <td>{{ candidate?.cd_phno }}</td>
+        <td>{{ candidate?.cd_loc }}</td>
+        <td>{{ candidate?.cd_total_exp }} years</td>
+        <td>
+          <button class="btn btn-primary" (click)="viewCandidate(candidate)">View</button>
+          <button class="btn btn-warning" (click)="editCandidate(candidate)">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button class="btn btn-danger" (click)="deleteCandidate(candidate)">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,129 @@
+<div class="form-container">
+    <div class="showBanner add-client-banner">
+      <span>Add candidate details</span>
+      <button class="close-button" (click)="closeDialog()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <br>
+    <form [formGroup]="candidateForm" (ngSubmit)="onSubmit()">
+      <div class="section">
+        <h6>Candidate primary details</h6>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="companyName">Company Name*</label>
+            <div class="dropdown-container">
+              <select class="form-control" id="companyName" formControlName="companyName" required>
+                <option value="">Select Company Name</option>
+                <option value="company1">Company 1</option>
+                <option value="company2">Company 2</option>
+              </select>
+              <span class="dropdown-icon">&#9662;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="requirementName">Requirement Name*</label>
+            <div class="dropdown-container">
+              <select class="form-control" id="requirementName" formControlName="requirementName" required>
+                <option value="">Select Requirement Name</option>
+                <option value="requirement1">Requirement 1</option>
+                <option value="requirement2">Requirement 2</option>
+              </select>
+              <span class="dropdown-icon">&#9662;</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name*</label>
+            <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="Enter first name" required>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Enter last name" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email*</label>
+            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter email" required>
+          </div>
+          <div class="form-group">
+            <label for="phoneNo">Phone No.*</label>
+            <input type="tel" class="form-control" id="phoneNo" formControlName="phoneNo" placeholder="Enter phone number" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="location">Location*</label>
+            <input type="text" class="form-control" id="location" formControlName="location" placeholder="Enter location" required>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <h6>Other details</h6>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="qualification">Qualification:</label>
+            <input type="text" class="form-control" id="qualification" formControlName="qualification" placeholder="Enter qualification" required>
+          </div>
+          <div class="form-group">
+            <label for="skills">Skills*</label>
+            <input type="text" class="form-control" id="skills" formControlName="skills" placeholder="Enter skills" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="experience">Experience*</label>
+            <input type="text" class="form-control" id="experience" formControlName="experience" placeholder="Enter experience" required>
+          </div>
+          <div class="form-group">
+            <label for="relevantExperience">Relevant Experience:</label>
+            <input type="text" class="form-control" id="relevantExperience" formControlName="relevantExperience" placeholder="Enter relevant experience" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="currentCTC">Current CTC*</label>
+            <input type="text" class="form-control" id="currentCTC" formControlName="currentCTC" placeholder="Enter current CTC" required>
+          </div>
+          <div class="form-group">
+            <label for="expectedCTC">Expected CTC*</label>
+            <input type="text" class="form-control" id="expectedCTC" formControlName="expectedCTC" placeholder="Enter expected CTC" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="noticePeriod">Notice Period*</label>
+            <div class="dropdown-container">
+              <select class="form-control" id="noticePeriod" formControlName="noticePeriod" required>
+                <option value="">Select notice period</option>
+                <option value="immediate">Immediate</option>
+                <option value="15_days">15 Days</option>
+                <option value="30_days">30 Days</option>
+              </select>
+              <span class="dropdown-icon">&#9662;</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="workMode">Work Mode*</label>
+            <div class="dropdown-container">
+              <select class="form-control" id="workMode" formControlName="workMode" required>
+                <option value="">Select work mode</option>
+                <option value="remote">Remote</option>
+                <option value="onsite">Onsite</option>
+                <option value="hybrid">Hybrid</option>
+              </select>
+              <span class="dropdown-icon">&#9662;</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group custom-form-group valid-passport-group">
+          <input type="checkbox" class="form-check-input custom-checkbox" id="validPassport" formControlName="validPassport" required>
+          <label for="validPassport">Valid Passport</label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+  
