@@ -1,7 +1,7 @@
 <div class="container clients-master-container">
   <div class="d-flex justify-content-between align-items-center">
     <h4 class="text-center">Clients Master</h4>
-    <button class="btn btn-primary" (click)="openClientForm()">+ Add Client</button>
+    <button class="btn btn-primary" (click)="openAddClientForm()">+ Add Client</button>
   </div>
   
   <br>
@@ -48,8 +48,8 @@
         <td>{{ client.cl_phno }}</td>
         <td>{{ client.cl_addr }}</td> <!-- Adjust as necessary -->
         <td>
-          <button class="btn btn-sm btn-info button-gap" (click)="viewClient(client)">View</button>
-          <button class="btn btn-sm btn-warning button-gap" (click)="editClient(client)">
+          <button class="btn btn-sm btn-info button-gap" (click)="openViewClientForm(client)">View</button>
+          <button class="btn btn-sm btn-warning button-gap" (click)="openEditClientForm(client)">
             <i class="fa fa-edit"></i>
           </button>
           <button class="btn btn-sm btn-danger" (click)="deleteClient(client)">

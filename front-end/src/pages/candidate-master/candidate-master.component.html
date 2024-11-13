@@ -1,37 +1,36 @@
 <div class="container candidate-master-container">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="candidate-title text-center">Candidate Master</h4>
-    <button class="btn btn-primary" (click)="openCandidateForm()">
+    <button class="btn btn-primary" (click)="openCandidateForm()" [disabled]="!clientsLoaded">
       <i class="fa fa-plus"></i> Add Candidate
     </button>
   </div>
 
   <br>
   <div class="row align-items-center"> 
-    <!-- Select for Client Name with placeholder -->
     <div class="col-md-4">
-      <select class="form-select" [(ngModel)]="selectedClientId" (ngModelChange)="onClientChange()">
-        <option selected>Client Name</option>
+      <label for="clientSelect" class="form-label">Client Name</label>
+      <select id="clientSelect" class="form-select" [(ngModel)]="selectedClientId" (ngModelChange)="onClientChange()">
+        <option value="" disabled selected>Select a client</option>
         <option *ngFor="let client of clients" [value]="client.cl_id">{{ client.cl_name }}</option>
       </select>
     </div>
   
-    <!-- Select for Requirements with placeholder -->
     <div class="col-md-4">
-      <select class="form-select" [(ngModel)]="selectedRequirementId">
-        <option selected>Requirement Name</option>
+      <label for="requirementSelect" class="form-label">Requirement Name</label>
+      <select id="requirementSelect" class="form-select" [(ngModel)]="selectedRequirementId" (ngModelChange)="onRequirementChange()">
+        <option value="" disabled selected>Select a requirement</option>
         <option *ngFor="let requirement of requirements" [value]="requirement.rq_id">{{ requirement.rq_name }}</option>
       </select>
-    </div>  
+    </div>    
     
-    <!-- Search Box -->
-    <div class="col-md-4"> <!-- Use remaining width for search box -->
-      <div class="input-group"> <!-- Keep the input group full width -->
+    <div class="col-md-4">
+      <div class="input-group">
         <span class="input-group-text">
           <i class="fas fa-search"></i>
         </span>
-        <input type="text" class="form-control" placeholder="Search here..." [(ngModel)]="searchQuery" (input)="filterCandidates()" />
-        <button class="btn btn-outline-secondary" type="button" (click)="searchQuery = ''">
+        <input type="text" class="form-control" placeholder="Search here..." />
+        <button class="btn btn-outline-secondary" type="button">
           <i class="fa fa-x"></i>
         </button>
       </div>
@@ -52,7 +51,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let candidate of filteredCandidates">
+           <tr *ngFor="let candidate of candidates">
         <td>{{ candidate?.cd_first_name }} {{ candidate?.cd_last_name }}</td>
         <td>{{ candidate?.created_at ? (candidate.created_at | date:'shortDate') : 'N/A' }}</td>
         <td>{{ candidate?.cd_email }}</td>
@@ -72,3 +71,4 @@
     </tbody>
   </table>
 </div>
+

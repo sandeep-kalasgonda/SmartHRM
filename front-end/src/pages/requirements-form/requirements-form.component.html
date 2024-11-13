@@ -14,13 +14,10 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="companyName">Company Name*</label>
-            <div class="dropdown-container">
-              <select class="form-control" id="companyName" formControlName="cl_id" [disabled]="readonly" required>
-                <option value="">Select Company</option>
-                <option *ngFor="let client of clients" [value]="client.cl_id">{{ client.cl_name }}</option>
-              </select>
-              <span class="dropdown-icon">&#9662;</span>
-            </div>
+            <select class="form-control" id="companyName" formControlName="cl_id" [disabled]="readonly" required>
+              <option value="">Select Company</option>
+              <option *ngFor="let client of clients" [value]="client.cl_id">{{ client.cl_name }}</option>
+            </select>
             <div *ngIf="requirementForm.get('cl_id')?.invalid && requirementForm.get('cl_id')?.touched" class="text-danger">
               Company Name is required.
             </div>
@@ -102,15 +99,12 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="workMode">Work Mode</label>
-            <div class="dropdown-container">
-              <select class="form-control" id="workMode" formControlName="rq_work_mode" [disabled]="readonly">
-                <option value="">Select work mode</option>
-                <option value="remote">Remote</option>
-                <option value="onsite">Onsite</option>
-                <option value="hybrid">Hybrid</option>
-              </select>
-              <span class="dropdown-icon">&#9662;</span>
-            </div>
+            <select class="form-control" id="workMode" formControlName="rq_work_mode" [disabled]="readonly">
+              <option value="">Select work mode</option>
+              <option value="remote">Remote</option>
+              <option value="onsite">Onsite</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
           </div>
         </div>
         
@@ -126,22 +120,19 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="noticePeriod">Notice Period</label>
-            <div class="dropdown-container">
-              <select class="form-control" id="noticePeriod" formControlName="noticePeriod" [disabled]="readonly">
-                <option value="">Select notice period</option>
-                <option value="immediate">Immediate</option>
-                <option value="15_days">15 Days</option>
-                <option value="30_days">30 Days</option>
-              </select>
-              <span class="dropdown-icon">&#9662;</span>
-            </div>
+            <select class="form-control" id="noticePeriod" formControlName="rq_no_of_days" [disabled]="readonly">
+              <option value="">Select notice period</option>
+              <option value="immediate">Immediate</option>
+              <option value="15_days">15 Days</option>
+              <option value="30_days">30 Days</option>
+            </select>
           </div>
         </div>
 
         <div class="col-md-6">
           <div class="form-group">
             <label for="requirementNotes">Requirement Notes</label>
-            <textarea class="form-control wide-textarea" id="requirementNotes" formControlName="rq_notes" cols="10" placeholder="Enter notes" [disabled]="readonly"></textarea>
+            <textarea class="form-control" id="requirementNotes" formControlName="rq_notes" cols="10" placeholder="Enter notes" [disabled]="readonly"></textarea>
           </div>
         </div>
       </div>
@@ -149,7 +140,7 @@
       <!-- Only show the submit button if not in read-only mode -->
       <div class="row mt-4" *ngIf="!readonly">
         <div class="button-container">
-          <button type="submit" class="btn btn-secondary submit-button" [disabled]="requirementForm.invalid">Submit</button>
+          <button type="submit" class="btn btn-secondary submit-button" [disabled]="requirementForm.invalid && !isEditing">Submit</button>
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ import { Requirement, Client } from './requirement.model'; // Import both Requir
   providedIn: 'root'
 })
 export class RequirementService {
-  private apiUrl = 'http://localhost:8003'; // Ensure this matches your FastAPI base URL
+  private apiUrl = 'http://localhost:8002'; // Ensure this matches your FastAPI base URL
 
   constructor(private http: HttpClient) {}
 
@@ -16,15 +16,19 @@ export class RequirementService {
     return this.http.get<Requirement[]>(`${this.apiUrl}/requirements`);
   }
 
-  // Create a new requirement for a specific client
-  createRequirement(clientId: string, requirement: Requirement): Observable<Requirement> {
-    return this.http.post<Requirement>(`${this.apiUrl}/requirements/${clientId}`, requirement);
+  createRequirement(clientId: string, requirement: Omit<Requirement, 'id'>): Observable<{ message: string; requirement_id: string }> {
+    return this.http.post<{ message: string; requirement_id: string }>(
+      `${this.apiUrl}/requirements/${clientId}`,
+      requirement
+    );
   }
+  
 
-  // Update an existing requirement by ID
-  updateRequirement(id: string, requirement: Requirement): Observable<Requirement> {
-    return this.http.put<Requirement>(`${this.apiUrl}/requirements/${id}`, requirement);
-  }  
+// Update an existing requirement by ID
+updateRequirement(id: string, requirement: Requirement): Observable<{ message: string; requirement_id: string }> {
+  return this.http.put<{ message: string; requirement_id: string }>(`${this.apiUrl}/requirements/${id}`, requirement);
+}
+
 
   // Delete a requirement by ID
   deleteRequirement(id: string): Observable<void> {

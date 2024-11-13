@@ -19,4 +19,5 @@ export interface ClientWithContacts {
     cl_notes?: string; // Optional notes about the client
     created_by?: string; // Optional information about who created the client
     contacts: Contact[]; // List of contacts associated with the client (required)
+    formType?: 'add' | 'update' | 'view';
 }

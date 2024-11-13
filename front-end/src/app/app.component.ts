@@ -4,6 +4,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { PrimeNGConfig } from 'primeng/api';
 
 
+
 @Component({
   selector: 'app-root',
   standalone: true,

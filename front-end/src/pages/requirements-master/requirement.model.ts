@@ -12,11 +12,10 @@ export interface Requirement {
         rq_budget?: number;          // Budget for the requirement (optional)
         rq_work_mode?: string;       // Work mode (optional)
         rq_start_date?: string;      // Start date (optional)
-        rq_no_of_days?: number;      // Number of days (optional)
+        rq_no_of_days?: string;      // Number of days (optional)
         rq_notes?: string;           // Additional notes (optional)
         created_by?: string;         // Creator of the requirement (optional)
-        rq_map_url?: string;         // Link to the map (optional) <-- Added this line
-        
+        rq_map_url?: string;         // Link to the map (optional) <-- Added this line   
     }
     
   

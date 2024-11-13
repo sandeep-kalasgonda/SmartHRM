@@ -1,55 +1,117 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog'; // Import MatDialogRef for dialog control
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Client, Requirement, Candidate } from '../candidate-master/candidate.model';
+import { CandidateService } from '../candidate-master/client.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-candidate-form',
   templateUrl: './candidate-form.component.html',
   styleUrls: ['./candidate-form.component.css'],
   standalone: true,
-  imports: [ReactiveFormsModule]
+  imports: [ReactiveFormsModule, CommonModule]
 })
 export class CandidateFormComponent implements OnInit {
   candidateForm: FormGroup;
+  clients: Client[] = [];
+  requirements: Requirement[] = [];
+  viewMode: boolean = false; // Flag to indicate view mode
 
-  // Inject MatDialogRef to close the dialog and FormBuilder
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<CandidateFormComponent>) {
+  constructor(
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<CandidateFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { candidate: Candidate | null; clients: Client[]; viewMode: boolean },
+    private candidateService: CandidateService // Inject the service
+  ) {
     this.candidateForm = this.fb.group({
-      companyName: ['', Validators.required],
-      requirementName: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]], // Email validator
-      phoneNo: ['', Validators.required],
-      location: ['', Validators.required],
-      qualification: ['', Validators.required],
-      skills: ['', Validators.required],
-      experience: ['', Validators.required],
-      relevantExperience: ['', Validators.required],
-      currentCTC: ['', Validators.required],
-      expectedCTC: ['', Validators.required],
-      noticePeriod: ['', Validators.required],
-      workMode: ['', Validators.required],
-      validPassport: [false, Validators.required] // Default to false, assuming it's a checkbox
+      cl_id: ['', Validators.required], // Client ID
+      rq_id: ['', Validators.required], // Requirement ID
+      cd_first_name: ['', Validators.required], // Candidate first name
+      cd_last_name: [''], // Candidate last name
+      cd_email: ['', [Validators.required, Validators.email]], // Email
+      cd_phno: ['', Validators.required], // Phone number
+      cd_loc: ['', Validators.required], // Location
+      cd_qual: ['', Validators.required], // Qualification
+      cd_total_exp: [0, [Validators.required, Validators.min(0)]], // Total experience
+      cd_related_exp: [0, [Validators.min(0)]], // Relevant experience (optional)
+      cd_cur_ctc: [0, [Validators.required, Validators.min(0)]], // Current CTC
+      cd_exp_ctc: [0, [Validators.required, Validators.min(0)]], // Expected CTC
+      cd_notice: ['', Validators.required], // Notice period
+      cd_work_mode: ['', Validators.required], // Work mode
+      cd_valid_passport: [false], // Valid passport status
+      cd_skills:['', Validators.required],
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.clients = this.data.clients; // Assign clients from dialog data
+    this.viewMode = this.data.viewMode; // Set view mode based on dialog data
 
-  // Submit function to handle form submission
-  onSubmit() {
-    if (this.candidateForm.valid) {
-      console.log(this.candidateForm.value); // Log form values for testing
-      // Close the dialog and pass the form data to the parent component
-      this.dialogRef.close(this.candidateForm.value);
-    } else {
-      this.candidateForm.markAllAsTouched(); // Mark all controls as touched to trigger validation messages
+    // Load requirements based on selected client
+    this.candidateForm.get('cl_id')?.valueChanges.subscribe(clientId => {
+      if (clientId) {
+        this.loadRequirements(clientId); // Fetch requirements for the selected client
+      } else {
+        this.requirements = []; // Reset requirements if no client is selected
+      }
+    });
+
+    // Patch existing candidate data if available
+    if (this.data.candidate) {
+      this.candidateForm.patchValue({
+        cl_id: this.data.candidate.cl_id || '',
+        rq_id: this.data.candidate.rq_id || '',
+        cd_first_name: this.data.candidate.cd_first_name || '',
+        cd_last_name: this.data.candidate.cd_last_name || '',
+        cd_email: this.data.candidate.cd_email || '',
+        cd_phno: this.data.candidate.cd_phno || '',
+        cd_loc: this.data.candidate.cd_loc || '',
+        cd_qual: this.data.candidate.cd_qual || '',
+        cd_skills:this.data.candidate.cd_skills || '',
+        cd_total_exp: this.data.candidate.cd_total_exp || 0,
+        cd_related_exp: this.data.candidate.cd_related_exp || 0,
+        cd_cur_ctc: this.data.candidate.cd_cur_ctc || 0,
+        cd_exp_ctc: this.data.candidate.cd_exp_ctc || 0,
+        cd_notice: this.data.candidate.cd_notice || '',
+        cd_work_mode: this.data.candidate.cd_work_mode || '',
+        cd_valid_passport: this.data.candidate.cd_valid_passport || false,
+      });
+    }
+
+    // If in view mode, disable all form fields
+    if (this.viewMode) {
+      this.candidateForm.disable(); // Disable the form for viewing
     }
   }
 
-  // Function to close the dialog without submitting
+  loadRequirements(clientId: string): void {
+    this.candidateService.getRequirements(clientId).subscribe({
+      next: (requirements) => {
+        this.requirements = requirements; // Update the requirements based on the selected client
+      },
+      error: (err) => console.error('Error loading requirements:', err)
+    });
+  }
+
+  onSubmit() {
+    console.log('Submit called', this.candidateForm.valid, this.viewMode); // Check form validity and view mode
+    if (this.candidateForm.valid && !this.viewMode) { // Only submit if not in view mode
+      const candidateData = this.candidateForm.value; // Get form data
+      console.log('Candidate data to submit:', candidateData); // Log candidate data
+      this.dialogRef.close(candidateData); // Close dialog and return data
+    } else if (this.viewMode) {
+      console.log('Form is in view mode, closing dialog without submitting data.');
+      this.dialogRef.close(); // Close dialog without returning data in view mode
+    } else {
+      console.log('Form is invalid:', this.candidateForm.errors); // Log any form errors
+      this.candidateForm.markAllAsTouched(); // Mark all fields as touched to show errors
+    }
+  }
+  
+
   closeDialog(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(); // Close dialog
   }
 }

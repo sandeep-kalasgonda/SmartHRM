@@ -21,7 +21,7 @@ interface ClientWithContacts {
   cl_type?: string;
   cl_notes?: string;
   contacts: Contact[];
-  formType?: string; // Add formType to indicate the form mode
+  formType?: 'add' | 'update' | 'view'; // Use specific string literals for formType
 }
 
 @Component({
@@ -41,13 +41,13 @@ export class ClientFormComponent implements OnInit {
     cl_type: '',
     cl_notes: '',
     contacts: [],
-    formType: '' // Initialize formType
+    formType: 'add' // Initialize formType
   };
 
   submitted: boolean = false; // Track if the form has been submitted
   formHeading: string = ''; // Variable to hold the form heading
-  isSubmitDisabled: boolean = false; // 버튼 비활성화 상태 변수 추가
-  isAddContactDisabled: boolean = false; // Add Contact Person 버튼 비활성화 상태 변수 추가
+  isSubmitDisabled: boolean = false; 
+  isAddContactDisabled: boolean = false; // Add Contact Person
 
   constructor(
     private dialogRef: MatDialogRef<ClientFormComponent>,
@@ -59,12 +59,26 @@ export class ClientFormComponent implements OnInit {
       this.client = {
         ...this.data
       };
-      // Set the form heading based on formType
-      this.formHeading = this.client.formType === 'view' ? 'View Client' : 'Add Client';
 
-      // View 모드일 경우 제출 버튼과 Add Contact Person 버튼 비활성화
-      this.isSubmitDisabled = this.client.formType === 'view';
-      this.isAddContactDisabled = this.client.formType === 'view';
+      // Set the form heading based on formType
+      switch (this.client.formType) {
+        case 'view':
+          this.formHeading = 'View Client';
+          this.isSubmitDisabled = true; // Disable submission in view mode
+          this.isAddContactDisabled = true; // Disable adding contacts in view mode
+          break;
+        case 'update':
+          this.formHeading = 'Edit Client';
+          this.isSubmitDisabled = false; // Enable submission in edit mode
+          this.isAddContactDisabled = false; // Enable adding contacts in edit mode
+          break;
+        case 'add':
+        default:
+          this.formHeading = 'Add Client';
+          this.isSubmitDisabled = false; // Enable submission in add mode
+          this.isAddContactDisabled = false; // Enable adding contacts in add mode
+          break;
+      }
     }
   }
 
