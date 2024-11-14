@@ -11,6 +11,7 @@ import { CandidateMasterComponent } from '../pages/candidate-master/candidate-ma
 import { CandidateFormComponent } from '../pages/candidate-form/candidate-form.component';
 import { RequirementsMasterComponent } from '../pages/requirements-master/requirements-master.component';
 import { RequirementsFormComponent } from '../pages/requirements-form/requirements-form.component';
+import { ChatbotComponent } from '../pages/chatbot/chatbot.component';
 
 export const routes: Routes = [
     
@@ -28,6 +29,14 @@ export const routes: Routes = [
                 component:HomeComponent,
                 title:'Home'
             },
+
+              {
+                path:'chatbot',
+                component:ChatbotComponent,
+                title:'Chatbot'             
+             },
+             
+
             {
                 path:'resumelist',
                 component:ResumelistComponent,

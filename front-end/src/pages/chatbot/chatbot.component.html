@@ -1,0 +1,34 @@
+<div class="chatbot">
+    <div class="chatbot-header d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+        <img src="assets/chatboot.webp" alt="Chatbot Icon" class="chatbot-icon">
+        <span class="chatbot-title">AI Assistant</span>
+      </div>
+      <button class="close-btn" (click)="closeChatbot()"><i class="fas fa-times"></i></button>
+    </div>
+  
+    <div class="chatbot-body">
+      <div class="message-container">
+        <div class="message-wrapper">
+          <div class="bot-message">
+            Hello! I am AI Assistant, your assistant. How can I help you today?
+          </div>
+        </div>
+  
+        <div *ngFor="let message of messages" class="message-wrapper">
+          <div [class.user-message]="message.sender === 'user'" [class.bot-message]="message.sender === 'bot'">
+            {{ message.text }}
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Prompt container moved outside of chatbot-body -->
+    <div class="prompt-container d-flex justify-content-center align-items-center my-4">
+      <div class="input-group">
+        <input type="text" class="form-control" formControlName="userInput" placeholder="Enter the prompt" style="height: 60px; border-radius: 15px 0 0 15px;">
+        <button class="btn btn-primary generate-btn" type="button" (click)="sendMessage()" style="width:100px; height: 60px; border-radius: 0 14px 14px 0;">Generate</button>
+      </div>
+    </div>
+  </div>
+  

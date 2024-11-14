@@ -25,7 +25,7 @@
                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-upload"></i> Upload
                 </a>
-                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="uploadDropdown">
+                <ul class="dropdown-menu">
                     <li><a routerLink="/resume-upload" routerLinkActive="active" class="dropdown-item">Resume Upload</a></li>
                     <li><a routerLink="/JD-upload" routerLinkActive="active" class="dropdown-item">JD Upload</a></li>
                 </ul>
@@ -36,10 +36,12 @@
                     <i class="bi bi-trophy"></i> Resume Viewer
                 </a>
             </li>
-            <li class="master">
-                <a class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" href="#" aria-expanded="false">
-                  <i class="bi bi-file-earmark-bar-graph me-2"></i> master 
-              </a>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link text-white d-flex align-items-center dropdown-toggle" href="#" id="masterDropdown" 
+                   role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                   <i class="bi bi-file-earmark-bar-graph me-2"></i> master 
+                </a>
                 <ul class="dropdown-menu">
                   <li><a routerLink="/clients-master" routerLinkActive="active"class="dropdown-item" href="#">Client</a></li>
                   <li><a routerLink="/requirement-master" routerLinkActive="active"class="dropdown-item" href="#">requirement</a></li>
